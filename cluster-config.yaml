@@ -1,0 +1,29 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: minimal-eks-cluster
+  region: us-east-1
+  version: "1.27" # Replace with the desired Kubernetes version
+
+# NodeGroup configuration
+nodeGroups:
+  - name: ng-public
+    instanceType: t3.medium # Use a small instance type for minimal cost
+    desiredCapacity: 2      # Two worker nodes for minimal redundancy
+    minSize: 1              # Minimum number of nodes
+    maxSize: 3              # Maximum number of nodes
+    privateNetworking: false # Nodes will have public IPs
+    ssh:
+      allow: false          # Disable SSH access
+
+# VPC configuration
+vpc:
+  autoAllocateIPv6: false
+  cidr: 192.168.0.0/16
+  clusterEndpoints:
+    privateAccess: false
+    publicAccess: true
+  manageSharedNodeSecurityGroupRules: true
+  nat:
+    gateway: Disable
