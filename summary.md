@@ -135,7 +135,7 @@ Use this command to link the `aws-node` service account with the IAM role:
 kubectl -n kube-system annotate serviceaccount aws-node eks.amazonaws.com/role-arn=arn:aws:iam::<account-id>:role/<role-name>
 ```
 
-## 🔨 Creating the IRSA Role
+## 🔨 Creating the IRSA Role (EKS-VPC-CNI-Addon-Role)
 
 ### 🛠️ Step 1: Create IAM Role
 
