@@ -143,7 +143,7 @@ kubectl -n kube-system annotate serviceaccount aws-node eks.amazonaws.com/role-a
 - Click **Roles** → **Create role**.
 - Choose **EKS** as the trusted entity.
 - Attach these policies:
-  - 📡 `AmazonEKSVPCResourceControllerPolicy`
+  - 📡 `AmazonEKSVPCResourceController`
   - 🌐 `AmazonEKS_CNI_Policy`
 
 ### ✏️ Step 2: Update Trust Policy
