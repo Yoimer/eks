@@ -168,6 +168,25 @@ Replace `<OIDC-ISSUER-URL>` with your cluster's OIDC URL:
   ]
 }
 ```
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::637423582856:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/1C3048311BA17C39CB032AD73AEF0238"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "oidc.eks.us-east-1.amazonaws.com/id/1C3048311BA17C39CB032AD73AEF0238:sub": "system:serviceaccount:kube-system:aws-node"
+                }
+            }
+        }
+    ]
+}
+```
 
 ### 🔍 Step 3: Annotate Service Account
 ```bash
