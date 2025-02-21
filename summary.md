@@ -1,4 +1,4 @@
-# 🌐🚀 ChatGPT Canvas Summary: EKS Cluster Deployment with VPC CNI and IRSA
+# 🌐🚀EKS Cluster Deployment with VPC CNI and IRSA
 
 ## ⚙️ Initial Deployment YAML (No Add-ons)
 ```yaml
