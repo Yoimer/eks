@@ -205,7 +205,7 @@ eksctl utils associate-iam-oidc-provider --cluster minimal-eks-cluster --approve
 
 ### 🔍 Step 4: Annotate Service Account
 ```bash
-kubectl -n kube-system annotate serviceaccount aws-node eks.amazonaws.com/role-arn=arn:aws:iam::637423582856:role/EKS-VPC-CNI-Addon-Role
+kubectl -n kube-system annotate serviceaccount aws-node eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/EKS-VPC-CNI-Addon-Role
 ```
 
 ## 🎯 Conclusion
