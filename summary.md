@@ -188,7 +188,19 @@ Replace `<OIDC-ISSUER-URL>` with your cluster's OIDC URL:
 }
 ```
 
-### 🔍 Step 3: Annotate Service Account
+## Step 3: Create the OIDC Provider
+
+To resolve this issue, you need to create the OIDC provider for your EKS cluster. The OIDC provider allows the service account to assume the IAM role using IRSA (IAM Roles for Service Accounts).
+
+## Action: Create the OIDC Provider Using `eksctl`
+
+Run the following command to create the OIDC provider for your EKS cluster:
+
+```bash
+eksctl utils associate-iam-oidc-provider --cluster minimal-eks-cluster --approve
+```
+
+### 🔍 Step 4: Annotate Service Account
 ```bash
 kubectl -n kube-system annotate serviceaccount aws-node eks.amazonaws.com/role-arn=arn:aws:iam::637423582856:role/EKS-VPC-CNI-Addon-Role
 ```
