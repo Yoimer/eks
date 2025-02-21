@@ -32,10 +32,32 @@ Run 'docker run --help' for more information
 
 The error message indicates that the `sh` shell is not available in the container image. This suggests that the container image is built with a minimal environment and does not include common shells like `sh` or `bash`. However, we can still inspect the contents of the image by using alternative methods.
 
+## Step 1: Inspect the Image Using `docker export`
 
+Since the container image does not include `sh`, we can use `docker export` to extract the filesystem of the container and inspect its contents locally.
 
+Run the following commands:
 
+1. Start a temporary container from the image:
+```bash
+docker create --name temp-container 602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon-k8s-cni:v1.19.2-eksbuild.5
+```
 
+2. Export the container's filesystem to a tar archive:
+```bash
+docker export temp-container > cni-image.tar
+```
+
+3. Extract the tar archive to a local directory:
+```bash
+mkdir cni-inspect
+tar -xvf cni-image.tar -C cni-inspect/
+```
+
+4. Inspect the extracted files:
+```bash
+ls -l cni-inspect/
+```
 
 
 
