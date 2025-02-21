@@ -1,3 +1,22 @@
+[EXPLANATION COMES HERE]
+
+## Step 1: Inspect the Container Image Locally
+
+Since the container failed due to missing host mounts, we need to inspect the image directly to verify its contents and ensure it includes the necessary binaries (`ls`, `cat`, `curl`, etc.).
+
+Run the following command to start an interactive shell inside the container without attempting to execute any commands:
+
+```bash
+docker run --rm -it --entrypoint sh 602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon-k8s-cni:v1.19.2-eksbuild.5
+```
+
+Once inside the container, check the `$PATH` variable and verify whether common binaries are available:
+
+```bash
+echo $PATH
+which ls cat curl printenv
+```
+
 ```bash
 
 Events:
