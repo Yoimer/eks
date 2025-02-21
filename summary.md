@@ -188,17 +188,20 @@ Replace `<OIDC-ISSUER-URL>` with your cluster's OIDC URL:
 }
 ```
 
-## Step 3: Create the OIDC Provider
+### Step 3: Create the OIDC Provider
 
-To resolve this issue, you need to create the OIDC provider for your EKS cluster. The OIDC provider allows the service account to assume the IAM role using IRSA (IAM Roles for Service Accounts).
+You need to create the OIDC provider for your EKS cluster. The OIDC provider allows the service account to assume the IAM role using IRSA (IAM Roles for Service Accounts).
 
-## Action: Create the OIDC Provider Using `eksctl`
+### Action: Create the OIDC Provider Using `eksctl`
 
 Run the following command to create the OIDC provider for your EKS cluster:
 
 ```bash
 eksctl utils associate-iam-oidc-provider --cluster minimal-eks-cluster --approve
 ```
+**This command will:**
+1. Register the OIDC provider for your EKS cluster in AWS IAM.
+2. Ensure that the `aws-node` service account can use IRSA to assume the IAM role.
 
 ### 🔍 Step 4: Annotate Service Account
 ```bash
