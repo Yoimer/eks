@@ -17,6 +17,28 @@ echo $PATH
 which ls cat curl printenv
 ```
 
+## What to Expect
+
+1. If the binaries (`ls`, `cat`, `curl`, etc.) are present, this confirms that the container image is correctly built and includes the necessary tools.
+2. If the binaries are missing, this indicates that the container image is incomplete or misconfigured.
+
+Here is the output if the suggested command.
+
+```bash 
+docker run --rm -it --entrypoint sh 602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon-k8s-cni:v1.19.2-eksbuild.5  
+docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: exec: "sh": executable file not found in $PATH: unknown  
+Run 'docker run --help' for more information
+```
+
+The error message indicates that the `sh` shell is not available in the container image. This suggests that the container image is built with a minimal environment and does not include common shells like `sh` or `bash`. However, we can still inspect the contents of the image by using alternative methods.
+
+
+
+
+
+
+
+
 ```bash
 
 Events:
