@@ -175,7 +175,7 @@ Replace `<OIDC-ISSUER-URL>` with your cluster's OIDC URL:
         {
             "Effect": "Allow",
             "Principal": {
-                "Federated": "arn:aws:iam::637423582856:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/1C3048311BA17C39CB032AD73AEF0238"
+                "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/1C3048311BA17C39CB032AD73AEF0238"
             },
             "Action": "sts:AssumeRoleWithWebIdentity",
             "Condition": {
