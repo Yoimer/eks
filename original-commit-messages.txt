@@ -1,0 +1,21 @@
+git log --oneline
+b6dfefa (HEAD -> main) renamed troubleshooting file and added commets on readme
+8b5aca2 added readme file
+a914121 summary.md reorganization
+26f910d added readiness and liveness issue on troubleshooting.md
+089ab06 added Step 1: Inspect the Image Using docker export
+1a3ac24 added what to expect section on troubleshooting
+f3327f7 added first part of troubleshooting with docker
+0e35037 added troubleshooting file
+c2ed7c3 fixed some formatting on summary
+dd8c8d6 added deep explanation of the role of annotation in EKS
+90aef6c fixed typo on summary
+5d19b74 fixed some formatting on summary
+4d0a77c added missing oidc provider creation
+302c903 fixed typo on summary
+44829af added suggested IRSA role name
+596d218 added real life example for oidc iam trusted policy
+cca59c1 fixed eks policy bad wording
+550400e updated summary with more vivid and meaningful emojis
+0e38f2f initial commit that includes minimal configuration for an eks cluster using eksctl
+(END)
