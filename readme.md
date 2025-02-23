@@ -55,10 +55,11 @@ For addon management:
 ```sh
 eksctl get addons --cluster <your-cluster-name>
 ```
-
-For troubleshooting, refer to the **troubleshooting.md** file. 🛠️
-
 ---
 
+With ❤️ from 🇻🇪
+
 Happy Deploying! 🎉
+
+
 
