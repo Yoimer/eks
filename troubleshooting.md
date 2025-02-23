@@ -1,4 +1,103 @@
-[EXPLANATION COMES HERE]
+# Troubleshooting Amazon VPC CNI Update in EKS 1.27
+
+When updating the **Amazon VPC CNI v1.19.0-eksbuild.1** on an **EKS 1.27 cluster**, I encountered an issue where the **aws-node pods failed to reach the expected 2/2 status**.
+
+After investigating, I realized I had **misconfigured multiple steps** during the update process.
+
+---
+
+## 1) Misconfigured IRSA Role (EKS-VPC-CNI-Addon-Role)
+
+### Context
+The **VPC CNI plugin** traditionally relies on the node’s IAM role, granting broad permissions to all pods. To enhance security, **IAM Roles for Service Accounts (IRSA)** allow fine-grained access control by associating a dedicated IAM role with the `aws-node` service account.
+
+### Mistake
+I accidentally used an incorrect **AWS account ID** when defining the IAM trust policy. Specifically, I copied and pasted the following JSON configuration but left the **wrong ACCOUNT_ID** from a separate sandbox account:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/<OIDC-ISSUER-URL>"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "<OIDC-ISSUER-URL>:sub": "system:serviceaccount:kube-system:aws-node"
+        }
+      }
+    }
+  ]
+}
+```
+
+This caused the `aws-node` pod to **fail to assume the IAM role**, leading to authentication issues.
+
+---
+
+## 2) Missing OIDC Provider Association
+
+I **forgot to associate the OIDC provider** with the EKS cluster, which is a critical step in enabling IRSA. Without this, the service account cannot assume the IAM role.
+
+### Correct Command
+```bash
+eksctl utils associate-iam-oidc-provider --cluster minimal-eks-cluster --approve
+```
+
+### Why It Matters
+- The **OIDC provider** allows Kubernetes service accounts to authenticate with AWS.
+- Without it, AWS **cannot validate the web identity token**, preventing the `aws-node` pod from assuming its IAM role.
+
+---
+
+## 3) Missing Service Account Annotation
+
+### What Happens If the Annotation is Missing?
+Without the **`eks.amazonaws.com/role-arn`** annotation, the `aws-node` pod **fails to assume the IAM role**, leading to several issues:
+
+- **Authentication Failures with AWS Services**
+  - Errors such as:
+    ```bash
+    timeout: failed to connect service "50051" within 5s
+    ```
+  - Missing permissions for actions like:
+    - Managing **Elastic Network Interfaces (ENIs)**
+    - Assigning **IP addresses**
+
+- **Readiness and Liveness Probe Failures**
+  - The pod enters a **CrashLoopBackOff** state due to failed health checks.
+
+### How the Annotation Enables Authentication
+1. **Pod Initialization**  
+   - The `aws-node` pod is assigned a **service account** with the required IAM role annotation.
+
+2. **Web Identity Token Injection**  
+   - Kubernetes injects a **web identity token** into the pod at:
+     ```
+     /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+     ```
+
+3. **IAM Role Assumption via AWS STS**  
+   - The pod presents the web identity token to **AWS Security Token Service (STS)**.
+   - AWS validates the token against the **OIDC provider** and allows the pod to assume the IAM role.
+
+---
+
+## Resolution & Key Takeaways
+After correcting the **IAM trust policy**, associating the **OIDC provider**, and adding the **service account annotation**, the `aws-node` pods successfully transitioned to **2/2 status**.
+
+### Lessons Learned
+- Always verify the **AWS account ID** when setting up trust policies.
+- Ensure the **OIDC provider** is properly associated before using IRSA.
+- Confirm that **service account annotations** are correctly applied to enable role assumption.
+
+This experience reinforced the importance of **carefully validating IAM configurations** when working with EKS and IRSA.
+
+### Here there are some steps the AI tried when troubleshooting.
+
 
 ## Step 1: Inspect the Container Image Locally
 
@@ -32,7 +131,7 @@ Run 'docker run --help' for more information
 
 The error message indicates that the `sh` shell is not available in the container image. This suggests that the container image is built with a minimal environment and does not include common shells like `sh` or `bash`. However, we can still inspect the contents of the image by using alternative methods.
 
-## Step 1: Inspect the Image Using `docker export`
+## Step 2: Inspect the Image Using `docker export`
 
 Since the container image does not include `sh`, we can use `docker export` to extract the filesystem of the container and inspect its contents locally.
 
@@ -59,7 +158,24 @@ tar -xvf cni-image.tar -C cni-inspect/
 ls -l cni-inspect/
 ```
 
+##
 
+```bash
+kubectl get pods -n kube-system
+NAME READY STATUS RESTARTS AGE
+aws-node-5npq4 1/2 Running 0 5s
+aws-node-n7tf9 1/2 Running 0 18s
+coredns-c8b897cb-mznwn 1/1 Running 0 14m
+coredns-c8b897cb-t4rss 1/1 Running 0 14m
+kube-proxy-srwmm 1/1 Running 0 13m
+kube-proxy-zbm4q 1/1 Running 0 14m
+metrics-server-7794986bdb-bxd2c 1/1 Running 0 61m
+metrics-server-7794986bdb-rmhj4 1/1 Running 0 61m
+```
+
+## Entire description of the aws-node-5npq4 pod
+
+```bash kubectl describe pod aws-node-5npq4 -n kube-system```
 
 ```bash
 
