@@ -51,6 +51,74 @@ eksctl create cluster -f cluster-config.yaml
 
 ### 🔄 Expected Output
 The command creates an EKS cluster named `minimal-eks-cluster` in the `us-east-1` region with two worker nodes. The output will show the cluster's creation progress and add-ons installation.
+```json
+eksctl create cluster -f cluster-config.yaml
+2025-02-24 22:09:36 [ℹ]  eksctl version 0.204.0
+2025-02-24 22:09:36 [ℹ]  using region us-east-1
+2025-02-24 22:09:36 [ℹ]  setting availability zones to [us-east-1c us-east-1b]
+2025-02-24 22:09:36 [ℹ]  subnets for us-east-1c - public:192.168.0.0/19 private:192.168.64.0/19
+2025-02-24 22:09:36 [ℹ]  subnets for us-east-1b - public:192.168.32.0/19 private:192.168.96.0/19
+2025-02-24 22:09:37 [ℹ]  nodegroup "ng-public" will use "ami-0ec5c2f993b24f018" [AmazonLinux2/1.27]
+2025-02-24 22:09:37 [ℹ]  using Kubernetes version 1.27
+2025-02-24 22:09:37 [ℹ]  creating EKS cluster "minimal-eks-cluster" in "us-east-1" region with un-managed nodes
+2025-02-24 22:09:37 [ℹ]  1 nodegroup (ng-public) was included (based on the include/exclude rules)
+2025-02-24 22:09:37 [ℹ]  will create a CloudFormation stack for cluster itself and 1 nodegroup stack(s)
+2025-02-24 22:09:37 [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-east-1 --cluster=minimal-eks-cluster'
+2025-02-24 22:09:37 [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "minimal-eks-cluster" in "us-east-1"
+2025-02-24 22:09:37 [ℹ]  CloudWatch logging will not be enabled for cluster "minimal-eks-cluster" in "us-east-1"
+2025-02-24 22:09:37 [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --enable-types={SPECIFY-YOUR-LOG-TYPES-HERE (e.g. all)} --region=us-east-1 --cluster=minimal-eks-cluster'
+2025-02-24 22:09:37 [ℹ]  default addons metrics-server, vpc-cni, kube-proxy, coredns were not specified, will install them as EKS addons
+2025-02-24 22:09:37 [ℹ]  
+2 sequential tasks: { create cluster control plane "minimal-eks-cluster", 
+    2 sequential sub-tasks: { 
+        2 sequential sub-tasks: { 
+            1 task: { create addons },
+            wait for control plane to become ready,
+        },
+        create nodegroup "ng-public",
+    } 
+}
+2025-02-24 22:09:37 [ℹ]  building cluster stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:09:38 [ℹ]  deploying stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:10:08 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:10:38 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:11:38 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:12:39 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:13:39 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:14:39 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:15:40 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:16:40 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:17:40 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-cluster"
+2025-02-24 22:17:43 [ℹ]  creating addon: metrics-server
+2025-02-24 22:17:43 [ℹ]  successfully created addon: metrics-server
+2025-02-24 22:17:44 [!]  recommended policies were found for "vpc-cni" addon, but since OIDC is disabled on the cluster, eksctl cannot configure the requested permissions; the recommended way to provide IAM permissions for "vpc-cni" addon is via pod identity associations; after addon creation is completed, add all recommended policies to the config file, under `addon.PodIdentityAssociations`, and run `eksctl update addon`
+2025-02-24 22:17:44 [ℹ]  creating addon: vpc-cni
+2025-02-24 22:17:45 [ℹ]  successfully created addon: vpc-cni
+2025-02-24 22:17:46 [ℹ]  creating addon: kube-proxy
+2025-02-24 22:17:46 [ℹ]  successfully created addon: kube-proxy
+2025-02-24 22:17:47 [ℹ]  creating addon: coredns
+2025-02-24 22:17:47 [ℹ]  successfully created addon: coredns
+2025-02-24 22:19:48 [ℹ]  building nodegroup stack "eksctl-minimal-eks-cluster-nodegroup-ng-public"
+2025-02-24 22:19:49 [ℹ]  deploying stack "eksctl-minimal-eks-cluster-nodegroup-ng-public"
+2025-02-24 22:19:49 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-nodegroup-ng-public"
+2025-02-24 22:20:20 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-nodegroup-ng-public"
+2025-02-24 22:21:11 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-nodegroup-ng-public"
+2025-02-24 22:22:32 [ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-nodegroup-ng-public"
+2025-02-24 22:22:32 [ℹ]  waiting for the control plane to become ready
+2025-02-24 22:22:33 [✔]  saved kubeconfig as "/home/yoimer/.kube/config"
+2025-02-24 22:22:33 [ℹ]  no tasks
+2025-02-24 22:22:33 [✔]  all EKS cluster resources for "minimal-eks-cluster" have been created
+2025-02-24 22:22:33 [ℹ]  nodegroup "ng-public" has 2 node(s)
+2025-02-24 22:22:33 [ℹ]  node "ip-192-168-39-23.ec2.internal" is ready
+2025-02-24 22:22:33 [ℹ]  node "ip-192-168-8-186.ec2.internal" is ready
+2025-02-24 22:22:33 [ℹ]  waiting for at least 1 node(s) to become ready in "ng-public"
+2025-02-24 22:22:33 [ℹ]  nodegroup "ng-public" has 2 node(s)
+2025-02-24 22:22:33 [ℹ]  node "ip-192-168-39-23.ec2.internal" is ready
+2025-02-24 22:22:33 [ℹ]  node "ip-192-168-8-186.ec2.internal" is ready
+2025-02-24 22:22:33 [✔]  created 1 nodegroup(s) in cluster "minimal-eks-cluster"
+2025-02-24 22:22:34 [ℹ]  kubectl command should work with "/home/yoimer/.kube/config", try 'kubectl get nodes'
+2025-02-24 22:22:34 [✔]  EKS cluster "minimal-eks-cluster" in "us-east-1" region is ready
+```
 
 ### 📟 Current Output
 Check the add-ons status with:
