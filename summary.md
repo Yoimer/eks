@@ -51,7 +51,7 @@ eksctl create cluster -f cluster-config.yaml
 
 ### 🔄 Expected Output
 The command creates an EKS cluster named `minimal-eks-cluster` in the `us-east-1` region with two worker nodes. The output will show the cluster's creation progress and add-ons installation.
-```json
+```bash
 eksctl create cluster -f cluster-config.yaml
 2025-02-24 22:09:36 [ℹ]  eksctl version 0.204.0
 2025-02-24 22:09:36 [ℹ]  using region us-east-1
