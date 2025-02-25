@@ -187,8 +187,12 @@ Replace `<OIDC-ISSUER-URL>` with your cluster's OIDC URL:
     ]
 }
 ```
+### Step 3 EKS-VPC-CNI-Addon-Role description
 
-### Step 3: Create the OIDC Provider
+```
+This IAM role is used by the Amazon EKS VPC CNI Add-on to manage networking resources within an Amazon EKS cluster. It grants permissions necessary for the AWS VPC CNI plugin to assign and manage IP addresses for Kubernetes pods. The role is assumed by the aws-node service account in the kube-system namespace through an OIDC-based federated identity trust.
+```
+### Step 4 Create the OIDC Provider
 
 You need to create the OIDC provider for your EKS cluster. The OIDC provider allows the service account to assume the IAM role using IRSA (IAM Roles for Service Accounts).
 
