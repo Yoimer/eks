@@ -196,13 +196,6 @@ vpc:
 eksctl create cluster -f updated-cluster-config.yaml
 ```
 
-## 🏷️ OIDC Annotations Explained
-
-Use this command to link the `aws-node` service account with the IAM role:
-```bash
-kubectl -n kube-system annotate serviceaccount aws-node eks.amazonaws.com/role-arn=arn:aws:iam::<account-id>:role/<role-name>
-```
-
 ## 🔨 Creating the IRSA Role (EKS-VPC-CNI-Addon-Role)
 
 ### 🛠️ Step 1: Create IAM Role
@@ -275,10 +268,20 @@ eksctl utils associate-iam-oidc-provider --cluster minimal-eks-cluster --approve
 1. Register the OIDC provider for your EKS cluster in AWS IAM.
 2. Ensure that the `aws-node` service account can use IRSA to assume the IAM role.
 
+**Expected output:**
+```bash
+2025-02-24 22:45:03 [ℹ]  will create IAM Open ID Connect provider for cluster "minimal-eks-cluster" in "us-east-1"
+2025-02-24 22:45:03 [✔]  created IAM Open ID Connect provider for cluster "minimal-eks-cluster" in "us-east-1"
+```
 ### 🔍 Step 4: Annotate Service Account
 ```bash
 kubectl -n kube-system annotate serviceaccount aws-node eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/EKS-VPC-CNI-Addon-Role
 ```
+**Expected output:**
+```bash
+serviceaccount/aws-node annotated
+```
+
 ## The Role of the Annotation
 
 The annotation step links the Kubernetes service account (`aws-node`) to the IAM role (`EKS-VPC-CNI-Addon-Role`). Here's why this is necessary:
