@@ -152,4 +152,3 @@ kubectl get nodes
 ✅ **All system components (`coredns`, `kube-proxy`, `aws-node`) are running normally.**  
 
 ---
-📌 **Let me know if you need help deploying workloads or fine-tuning your cluster!** 🚀🔥
