@@ -281,6 +281,7 @@ kubectl -n kube-system annotate serviceaccount aws-node eks.amazonaws.com/role-a
 ```bash
 serviceaccount/aws-node annotated
 ```
+### Step 5: Update Amazon VPC CNI
 
 ## The Role of the Annotation
 
