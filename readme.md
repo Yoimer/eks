@@ -8,11 +8,26 @@ Welcome to the **Amazon EKS Deployment Repository**! This repository contains es
 
 ```
 Root/
-├── cluster-config.yaml       # 🔧 EKS Cluster Configuration
-├── eks-addons.jpg            # 📸 EKS Addons Overview
-├── eks-version.jpg           # 🏷️ EKS Version Details
-├── summary.md                # 📖 Summary of the Deployment
-├── troubleshooting.md        # 🛠️ Troubleshooting Guide
+├── cluster-config.yaml
+├── docs
+│   ├── guides
+│   │   ├── ai
+│   │   │   ├── claude
+│   │   │   │   └── claude-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
+│   │   │   └── kimi
+│   │   │       └── kimi-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
+│   │   └── chatgpt
+│   │       ├── chatgpt-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
+│   │       └── chatgpt-EKS_Upgrade_1.27_to_1.28.md
+│   ├── summaries
+│   │   └── summary.md
+│   └── troubleshooting
+│       └── troubleshooting-vpc-cni-error.md
+├── eks-addons.jpg
+├── eks-version.jpg
+├── modifier-commit-messages.sh
+├── original-commit-messages.txt
+└── readme.md
 ```
 
 ---
@@ -53,7 +68,7 @@ eksctl create cluster -f cluster-config.yaml
 For addon management:
 
 ```sh
-eksctl get addons --cluster <your-cluster-name>
+eksctl get addons --cluster minimal-eks-cluster
 ```
 ---
 
