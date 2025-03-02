@@ -7,27 +7,28 @@ Welcome to the **Amazon EKS Deployment Repository**! This repository contains es
 ## 📂 Repository Structure
 
 ```
-Root/
-├── cluster-config.yaml
-├── docs
-│   ├── guides
-│   │   ├── ai
-│   │   │   ├── claude
-│   │   │   │   └── claude-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
-│   │   │   └── kimi
-│   │   │       └── kimi-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
-│   │   └── chatgpt
-│   │       ├── chatgpt-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
-│   │       └── chatgpt-EKS_Upgrade_1.27_to_1.28.md
-│   ├── summaries
-│   │   └── summary.md
-│   └── troubleshooting
-│       └── troubleshooting-vpc-cni-error.md
-├── eks-addons.jpg
-├── eks-version.jpg
-├── modifier-commit-messages.sh
-├── original-commit-messages.txt
-└── readme.md
+📂 Root/
+├── ⚙️ cluster-config.yaml
+├── 📖 docs/
+│   ├── 📜 guides/
+│   │   ├── 🤖 ai/
+│   │   │   ├── 🟡 claude/
+│   │   │   │   └── 📑 claude-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
+│   │   │   ├── 🔵 kimi/
+│   │   │   │   └── 📑 kimi-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
+│   │   ├── 🟢 chatgpt/
+│   │   │   ├── 📑 chatgpt-EKS_Node_Upgrade_Guide_1.27_to_1.28.md
+│   │   │   └── 📑 chatgpt-EKS_Upgrade_1.27_to_1.28.md
+│   ├── 📝 summaries/
+│   │   └── 📄 summary.md
+│   └── 🛠️ troubleshooting/
+│       └── ❌ troubleshooting-vpc-cni-error.md
+├── 🖼️ eks-addons.jpg
+├── 🖼️ eks-version.jpg
+├── 🛠️ modifier-commit-messages.sh
+├── 🗒️ original-commit-messages.txt
+└── 📖 readme.md
+
 ```
 
 ---
