@@ -8,6 +8,10 @@ Welcome to the **Amazon EKS Deployment Repository**! This repository contains es
 
 ```
 📂 Root/
+├── 📂 app/ 🚀
+│   ├── alb-ingress-iam-policy.json
+│   ├── game-2048-ingress.yaml
+│   └── game-2048.yaml
 ├── ⚙️ cluster-config.yaml
 ├── 📖 docs/
 │   ├── 📜 guides/
@@ -29,7 +33,6 @@ Welcome to the **Amazon EKS Deployment Repository**! This repository contains es
 ├── 🗒️ original-commit-messages.txt
 └── 📖 readme.md
 ```
-
 ---
 
 ## 📜 EKS Default Addons (Pre-installed by AWS)
