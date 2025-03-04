@@ -33,7 +33,7 @@ eksctl utils associate-iam-oidc-provider \
 [✔]  IAM OpenID Connect provider created for cluster "minimal-eks-cluster" in "us-east-1"
 ```
 ## Create IAM Policy for ALB Ingress Controller
-### Create an IAM policy document for the ALB Ingress Controller:
+
 
 ```bash 
 aws iam create-policy \
@@ -61,39 +61,64 @@ aws iam create-policy \
 
 ## Create an IAM Role for AWS ALB Ingress Controller (IRSA)
 
-AWS ALB Ingress Controller requires an IAM role with the necessary permissions. Run:
-```bash
-eksctl create iamserviceaccount \
-    --region us-east-1 \
-    --name aws-load-balancer-controller \
-    --namespace kube-system \
-    --cluster minimal-eks-cluster \
-    --attach-policy-arn arn:aws:iam::aws:policy/AWSLoadBalancerControllerIAMPolicy \
-    --approve
+### 🛠️ Step 1: Create IAM Role
+
+- Open **IAM** in AWS Console.
+- Click **Roles** → **Create role**.
+- For the Trusted entity type choose **Custom trust policy**
+
+### ✏️ Step 2: Update Trust Policy
+
+Replace `<OIDC-ISSUER-URL>` with your cluster's OIDC URL:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/<OIDC-ISSUER-URL>"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "<OIDC-ISSUER-URL>:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+        }
+      }
+    }
+  ]
+}
 ```
-### Expected Output:
+- Attach these policies:
+  - 📡 `AWSLoadBalancerControllerIAMPolicy`
+
+### Step 3 Create AWS-Load-Balancer-Role and description
+
+```
+This IAM role is used by the AWS Load Balancer Controller to dynamically provision and manage Application Load Balancers (ALB) and Network Load Balancers (NLB) for Kubernetes workloads running on Amazon EKS.
+
+Key Responsibilities:
+
+- Automatically creates and manages AWS ALB/NLB resources for Kubernetes Ingress.
+- Configures listeners, target groups, and security groups for traffic routing.
+- Ensures proper IAM authentication for load balancer operations.
+- Provides integration with AWS API Gateway and other networking services.
+- Enables SSL/TLS termination and redirects at the ALB level.
+- Supports Ingress traffic management based on Kubernetes rules.
+```
+
+### Create the Service Account Manually
 ```bash
-[ℹ]  eksctl version 0.162.0
-[ℹ]  using region us-east-1
-[ℹ]  1 iamserviceaccount (kube-system/aws-load-balancer-controller) was included
-[ℹ]  1 task: {
-    2 sequential sub-tasks: {
-        create IAM role for serviceaccount "kube-system/aws-load-balancer-controller",
-        create serviceaccount "kube-system/aws-load-balancer-controller",
-    } }
-[ℹ]  building iamserviceaccount stack "eksctl-minimal-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
-[ℹ]  deploying stack "eksctl-minimal-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
-[ℹ]  waiting for CloudFormation stack "eksctl-minimal-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
-[ℹ]  created serviceaccount "kube-system/aws-load-balancer-controller"
+kubectl create serviceaccount aws-load-balancer-controller -n kube-system
 ```
 
 ### Annotate the IRSA for ALB Controller
 To properly link the ALB Ingress Controller with the IAM role, annotate it with:
 ```bash
-kubectl annotate serviceaccount \
-    aws-load-balancer-controller \
+kubectl annotate serviceaccount aws-load-balancer-controller \
     -n kube-system \
-    eks.amazonaws.com/role-arn=arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>
+    eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/AWS-Load-Balancer-Role
 ```
 
 ### Expected Output:
@@ -124,7 +149,17 @@ REVISION: 1
 ```
 
 ## Deploy the Game-2048 App
+
+```bash
+kubectl create namespace game-2048
+```
+### Expected Output:
+```bash
+namespace/game-2048 created
+```
+
 Now, let's deploy the game using the provided game-2048.yaml file.
+
 ```bash
 kubectl apply -f game-2048.yaml -n game-2048
 ```
