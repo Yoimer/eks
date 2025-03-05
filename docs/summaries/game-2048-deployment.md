@@ -136,7 +136,6 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
     --set clusterName=minimal-eks-cluster \
     --set serviceAccount.create=false \
     --set serviceAccount.name=aws-load-balancer-controller
-
 ```
 
 ### Expected Output:
@@ -149,16 +148,6 @@ REVISION: 1
 ```
 
 ## Deploy the Game-2048 App
-
-```bash
-kubectl create namespace game-2048
-```
-### Expected Output:
-```bash
-namespace/game-2048 created
-```
-
-Now, let's deploy the game using the provided game-2048.yaml file.
 
 ```bash
 kubectl apply -f game-2048.yaml -n game-2048
