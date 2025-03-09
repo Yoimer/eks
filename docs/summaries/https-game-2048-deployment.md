@@ -52,7 +52,7 @@ aws acm describe-certificate \
 - Once verified, ACM issued the certificate, allowing us to use HTTPS.
 
 ### Command to Verify ACM Status (Which We Used)
-```json
+```bash
 aws acm describe-certificate \
     --certificate-arn arn:aws:acm:us-east-1:XXXXXXXXXXXX:certificate/abcd1234-5678-90ef-ghij-klmnopqrstuv \
     --query 'Certificate.Status'
