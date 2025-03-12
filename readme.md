@@ -154,7 +154,8 @@ I have added a detailed guide for deploying the **2048 game** on your EKS cluste
 
 ### 📝 Guide Details
 
-- **Deployment Guide:** [docs/summaries/game-2048-deployment.md](docs/summaries/game-2048-deployment.md)
+- **HTTP Deployment Guide:** [docs/summaries/game-2048-deployment-http.md](docs/summaries/game-2048-deployment-http.md)
+- **HTTPS Deployment Guide:** [docs/summaries/game-2048-deployment-https.md](docs/summaries/game-2048-deployment-https.md)
 - **Key Steps:** Includes Kubernetes manifests and deployment steps for the 2048 game.
 
 Follow the steps in the guide to deploy the game and get it running on your **EKS cluster**.
