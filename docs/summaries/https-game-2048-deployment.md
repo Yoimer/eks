@@ -77,58 +77,10 @@ aws acm describe-certificate \
 
 **Both records were required to make HTTPS work properly! ✅**
 
-
-## 📌 Step 2: Add ACM CNAME Validation Record in the Domain Account
-
-Since the **Route 53 hosted zone** is in the **domain account**, you manually added the **CNAME validation record** there.
-
-### 🔹 How You Did It (AWS Console)
-1. Logged into the **domain account**.
-2. Opened **Route 53 → Hosted Zones**.
-3. Selected the hosted zone for **`awslaboratorio.com`**.
-4. Clicked **Create Record**.
-5. Added a **CNAME record** with the values retrieved from **ACM**:
-   - **Name:** `_e4c0e8106cf6075a97179dbf50fedbec.k8slearning.awslaboratorio.com.`
-   - **Value:** `_dcefffce0bf637c36ce3fc0974648376.xlfgrmw1j.acm-validations.aws.`
-   - **TTL:** `300`
-6. Saved the record.
-
----
-
-### 🔹 How You Verified (AWS CLI)
-To check if the CNAME record was correctly propagated, you used:
-
-```bash
-dig CNAME _e4c0e8106cf6075a97179dbf50fedbec.k8slearning.awslaboratorio.com
-```
-
-✅ **Expected Output:**
-
-```bash
-_dcefffce0bf637c36ce3fc0974648376.xlfgrmw1j.acm-validations.aws.
-```
-
----
-
-### 🔹 Checking ACM Certificate Status
-After a few minutes, you checked the ACM status using:
-
-```bash
-aws acm describe-certificate \
-    --certificate-arn arn:aws:acm:us-east-1:XXXXXXXXXXXX:certificate/abcd1234-5678-90ef-ghij-klmnopqrstuv \
-    --query 'Certificate.Status'
-```
-
-✅ **Expected Output:**
-
-```bash
-"ISSUED"
-```
-## 📌 Step 3: Configure Route 53 to Point to the ALB
+## 📌 Step 1: Configure Route 53 to Point to the ALB
 
 Once the certificate was validated, you created a **CNAME record** in the **domain account’s Route 53** to point the **subdomain** to the **ALB**.
 
-### 🔹 How You Did It (AWS Console)
 1. In **Route 53 (domain account)**, opened **Hosted Zones**.
 2. Clicked **Create Record**.
 3. Set **Record Type**: `CNAME`
@@ -152,3 +104,39 @@ k8s-game2048-game2048-1051d6c53b-452388330.us-east-1.elb.amazonaws.com.
 ```
 
 If this had returned an **old ALB DNS**, that meant DNS propagation was still **in progress**.
+
+## 📌 Step 2: Request an ACM Certificate in the Staging AWS Account
+
+#### 1️⃣ Log into your AWS Sandbox Account.
+#### 2️⃣ Go to AWS Certificate Manager (ACM) (Make sure you’re in us-east-1).
+#### 3️⃣ Click Request a Certificate → Request a Public Certificate → Next.
+#### Under Fully Qualified Domain Name (FQDN), enter:
+```bash
+k8slearning.awslaboratorio.com
+```
+#### 5️⃣ Select Validation Method → Choose DNS validation (recommended).
+#### 6️⃣ Click Request.
+
+✅ Now, AWS will generate a CNAME record for DNS validation.
+
+
+## 📌 Step 3: Add ACM CNAME Validation Record in the Domain Account
+
+Since the **Route 53 hosted zone** is in the **domain account**, you manually added the **CNAME validation record** there.
+ 
+1. Log into the **domain account**.
+2. Open **Route 53 → Hosted Zones**.
+3. Select the hosted zone for **`awslaboratorio.com`**.
+4. Click **Create Record**.
+5. Add a **CNAME record** with the values retrieved from **ACM**:
+   - **Name:** `_e4c0e8106cf6075a97179dbf50fedbec.k8slearning.awslaboratorio.com.`
+   - **Value:** `_dcefffce0bf637c36ce3fc0974648376.xlfgrmw1j.acm-validations.aws.`
+   - **TTL:** `300`
+6. Saved the record.
+
+## 📌 Step 4: Apply HTTPS ingress
+- Update the ACM ARN on ```alb.ingress.kubernetes.io/certificate-arn``` in ```https-game-2048-ingress.```
+- Apply the https ingress controller
+```bash
+kubectl apply -f https-game-2048-ingress.yaml
+```
