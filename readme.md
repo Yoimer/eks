@@ -27,8 +27,11 @@ Welcome to the **Amazon EKS Deployment Repository**! This repository contains es
 │   │   └── 📄 summary.md
 │   └── 🛠️ troubleshooting/
 │       └── ❌ troubleshooting-vpc-cni-error.md
-├── 🖼️ eks-addons.jpg
-├── 🖼️ eks-version.jpg
+├── 📂 images/
+│   ├── game-2048-http.png
+│   ├── game-2048-https.png
+│   ├── eks-addons.jpg
+│   └── eks-version.jpg
 ├── 🛠️ modifier-commit-messages.sh
 ├── 🗒️ original-commit-messages.txt
 └── 📖 readme.md
