@@ -147,7 +147,6 @@ Refer to the [Upgrade Guide](docs/guides/ai/chatgpt/chatgpt-EKS_Node_Upgrade_Gui
   kubectl describe pod <pod-name>
   ```
 
-
 ## 🎮 2048 Game Deployment on EKS
 
 I have added a detailed guide for deploying the **2048 game** on your EKS cluster. This guide includes instructions on how to deploy the game and run it efficiently on your **Kubernetes cluster**.
@@ -155,10 +154,12 @@ I have added a detailed guide for deploying the **2048 game** on your EKS cluste
 ### 📝 Guide Details
 
 - **HTTP Deployment Guide:** [docs/summaries/game-2048-deployment-http.md](docs/summaries/game-2048-deployment-http.md)
+  ![HTTP Deployment](images/game-2048-http.png)
 - **HTTPS Deployment Guide:** [docs/summaries/game-2048-deployment-https.md](docs/summaries/game-2048-deployment-https.md)
+  ![HTTPS Deployment](images/game-2048-https.png)
 - **Key Steps:** Includes Kubernetes manifests and deployment steps for the 2048 game.
 
-Follow the steps in the guide to deploy the game and get it running on your **EKS cluster**.
+Follow the steps in the respective guides to deploy the game and get it running on your **EKS cluster**.
 
 ## 🤝 Contributing
 
