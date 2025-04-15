@@ -89,6 +89,26 @@ Replace `<OIDC-ISSUER-URL>` with your cluster's OIDC URL:
     }
   ]
 }
+
+---
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/B767368DD8B3A4400BB929FABFABB978"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "oidc.eks.us-east-1.amazonaws.com/id/B767368DD8B3A4400BB929FABFABB978:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+        }
+      }
+    }
+  ]
+}
 ```
 - Attach these policies:
   - 📡 `AWSLoadBalancerControllerIAMPolicy`
